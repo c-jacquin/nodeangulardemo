@@ -1,6 +1,4 @@
-var mongoose = require('mongoose'),
-    config = require('../../config/config');
-
+var mongoose = require('mongoose');
 
 var roomSchema = new mongoose.Schema({
     name:{
