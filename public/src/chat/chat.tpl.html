@@ -1,0 +1,86 @@
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" layout-fill md-component-id="chat">
+    <md-toolbar class="md-theme-indigo">
+        <div class="md-toolbar-tools" layout="row">
+            <h3 flex>
+                Chat Room
+            </h3>
+            <md-button ng-click="ctrl.toggleSideNav()" hide-gt-md>
+                X
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content class="md-padding">
+        <form ng-submit="createRoom()" layout="column">
+            <div>
+                <md-input-container>
+                    <label for="label">Room name</label>
+                    <input type="text" id="label" ng-model="myRoom.name">
+                </md-input-container>
+                <md-button class="md-raised"  type="submit">Create room</md-button>
+            </div>
+        </form>
+        <md-list>
+            <md-item ng-repeat="room in rooms |filter:myRoom">
+                <md-item-content>
+                    <md-button ng-click="joinRoom(room.name)">
+                        {{ room.name }}
+                    </md-button>
+                </md-item-content>
+            </md-item>
+        </md-list>
+    </md-content>
+</md-sidenav>
+<div class="sample" layout="column" layout-fill>
+    <md-toolbar md-scroll-shrink="true">
+        <div class="material-toolbar-tool" layout="row" layout-padding>
+            <h1 style="margin:0;" flex>
+                my App
+            </h1>
+            <div flex>
+
+            </div>
+            <md-button ui-sref="blog.list">
+
+            </md-button>
+            <md-button ng-click="logout()">
+                Logout
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-toolbar class="md-accent" md-scroll-shrink="true">
+        <div class="md-toolbar-tools">
+
+        </div>
+        <md-button ng-click="toggleSideNav()" class="md-fab md-fab-top-left">></md-button>
+    </md-toolbar>
+    <section layout="column" flex>
+        <md-content flex >
+            <md-list flex class="md-whiteframe-z4">
+                <md-item ng-repeat="message in messages">
+                    <md-item-content>
+                        <div class="md-tile-left">
+                            {{ message.sender }}&nbsp:
+                        </div>
+                        <div class="md-tile-content">
+                            {{ message.content }}
+                        </div>
+                        <div class="md-tile-right">
+                            {{ message.date | date:'HH:mm:ss Z'}}
+                        </div>
+                    </md-item-content>
+                </md-item>
+            </md-list>
+        </md-content>
+
+        <div layout="row" >
+            <md-input-container flex>
+                <label>Your message</label>
+                <input type="text" ng-model="message"/>
+            </md-input-container>
+            <md-button class="md-primary" ng-click="sendMessage(message)">
+                Send Message
+            </md-button>
+        </div>
+    </section>
+
+</div>

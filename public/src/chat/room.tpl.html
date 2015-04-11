@@ -1,0 +1,29 @@
+<md-dialog layout="column" layout-fill>
+    <section layout="column" flex>
+        <md-content flex >
+            <md-list style="padding: 25px; text-align: center;" class="md-whiteframe-z4" layout-fill layout="column">
+                <md-item ng-repeat="message in messages">
+                    <md-item-content>
+                        <div class="md-tile-left">
+                            {{ message.sender }}&nbsp:
+                        </div>
+                        <div class="md-tile-content">
+                            {{ message.content }}
+                   <div class="md-tile-right">
+                            {{ message.date | date:'HH:mm:ss Z'}}
+                        </div>
+                    </md-item-content>
+                </md-item>
+            </md-list>
+        </md-content>
+        <div layout="row" >
+            <md-input-container flex>
+                <label>Your message</label>
+                <input type="text" ng-model="roomMessage"/>
+            </md-input-container>
+            <md-button class="md-primary" ng-click="sendMessage(message)">
+                Send Message
+            </md-button>
+        </div>
+    </section>
+</md-dialog>

@@ -1,0 +1,36 @@
+<md-toolbar md-scroll-shrink="true">
+    <div class="material-toolbar-tool" layout="row" layout-padding>
+        <h1 style="margin:0;" flex>
+            my App
+        </h1>
+    </div>
+</md-toolbar>
+<md-content layout="row"  layout-align="center center">
+    <form flex="70" name="signinForm" ng-submit="login.signIn()" novalidate>
+        <md-input-container>
+            <label>email</label>
+            <input type="email" name="email"  ng-model="login.user.email" required>
+            <div ng-messages="signinForm.email.$error" ng-show="signinForm.email.$touched">
+                <div ng-message="email">enter a valid email</div>
+                <div ng-message="required">you must specify an email address</div>
+            </div>
+        </md-input-container>
+        <md-input-container>
+            <label>Password</label>
+            <input md-maxlength="30" type="password" name="password" ng-model="login.user.password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required>
+            <div ng-messages="signinForm.password.$error" ng-show="signinForm.password.$touched">
+                <div ng-message="required">You must specify a password</div>
+                <div ng-message="pattern">UpperCase, LowerCase and Number</div>
+                <div ng-message="md-maxlength">password has to be less than 30 characters long.</div>
+            </div>
+        </md-input-container>
+        <div layout="row">
+            <md-button class="md-raised" type="submit" flex="50">
+                Sign in
+            </md-button>
+            <md-button flex="50" class="md-raised" type="button" ng-click="login.signUp()">
+                Sign up
+            </md-button>
+        </div>
+    </form>
+</md-content>

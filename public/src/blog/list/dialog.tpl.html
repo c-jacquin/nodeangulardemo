@@ -1,0 +1,21 @@
+<md-dialog aria-label="Mango (Fruit)">
+    <md-content>
+        <md-input-container>
+            <label>Title</label>
+            <input md-maxlength="30" name="title" ng-model="dialog.post.title">
+        </md-input-container>
+        <md-input-container >
+            <label>Content</label>
+            <textarea ng-model="dialog.post.content" name="content" md-maxlength="150"></textarea>
+        </md-input-container>
+    </md-content>
+    <div class="md-actions" layout="row">
+        <md-button flex type="button" ng-click="dialog.remove()">
+            Remove
+        </md-button>
+        <md-button flex type="button" ng-click="dialog.update()">
+            Update
+        </md-button>
+    </div>
+</md-dialog>
+
