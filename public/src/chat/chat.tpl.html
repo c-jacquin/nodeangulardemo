@@ -1,4 +1,4 @@
-<md-sidenav class="md-sidenav-left md-whiteframe-z2" layout-fill md-component-id="chat">
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" layout-fill md-component-id="chatrooms">
     <md-toolbar class="md-theme-indigo">
         <div class="md-toolbar-tools" layout="row">
             <h3 flex>
@@ -30,7 +30,7 @@
         </md-list>
     </md-content>
 </md-sidenav>
-<div class="sample" layout="column" layout-fill>
+<div layout="column" layout-fill>
     <md-toolbar md-scroll-shrink="true">
         <div class="material-toolbar-tool" layout="row" layout-padding>
             <h1 style="margin:0;" flex>
@@ -51,7 +51,8 @@
         <div class="md-toolbar-tools">
 
         </div>
-        <md-button ng-click="toggleSideNav()" class="md-fab md-fab-top-left">></md-button>
+        <md-button ng-click="toggleRooms()" class="md-fab md-fab-top-left">></md-button>
+        <md-button ng-click="toggleUsers()" class="md-fab md-fab-top-right">@</md-button>
     </md-toolbar>
     <section layout="column" flex>
         <md-content flex >
@@ -82,5 +83,31 @@
             </md-button>
         </div>
     </section>
-
 </div>
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" layout-fill md-component-id="chatusers">
+    <md-toolbar class="md-theme-indigo">
+        <div class="md-toolbar-tools" layout="row">
+            <h3 flex>
+                Chat Users
+            </h3>
+            <md-button ng-click="ctrl.toggleSideNav()" hide-gt-md>
+                X
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content class="md-padding">
+        <md-input-container>
+            <label>user email</label>
+            <input type="text" ng-model="search.email">
+        </md-input-container>
+        <md-list>
+            <md-item ng-repeat="user in users |filter:search">
+                <md-item-content>
+                    <md-button ng-click="privateMessage(user)">
+                        {{ user.email }}
+                    </md-button>
+                </md-item-content>
+            </md-item>
+        </md-list>
+    </md-content>
+</md-sidenav>

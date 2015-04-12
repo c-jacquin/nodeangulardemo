@@ -133,13 +133,14 @@
                 }
             });
         })
-        .controller('ChatController',function($scope,$log,socket,$window,$mdSidenav,auth,$state,$mdDialog){
+        .controller('ChatController',function($scope,socket,$window,$mdSidenav,auth,$state,$mdDialog, $mdToast){
 
-            $scope.toggleSideNav = function(){
-                $mdSidenav('chat').toggle()
-                    .then(function(){
-                        $log.debug("toggle RIGHT is done");
-                    });
+            $scope.toggleRooms = function(){
+                $mdSidenav('chatrooms').toggle()
+            };
+
+            $scope.toggleUsers = function(){
+                $mdSidenav('chatusers').toggle()
             };
 
             $scope.logout = function(){
@@ -184,7 +185,33 @@
                 });
             };
 
+            $scope.privateMessage = function(user){
+
+                socket.emit('message::private',{
+                    to: user.socketId
+                });
+
+            };
+
+            socket.on('message::private',function(message){
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content(message.sender+ ' : pokes you')
+                        .hideDelay(20000)
+                )
+            });
+
             $scope.rooms = [];
+            $scope.users = [];
+
+            socket.on('user::list',function(users){
+               $scope.users = users;
+            });
+
+            socket.on('user::new',function(user){
+                console.log(user)
+                $scope.users.push(user);
+            });
 
             socket.on('room::list',function(rooms){
                 $scope.rooms = rooms;

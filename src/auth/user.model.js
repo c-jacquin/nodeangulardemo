@@ -5,14 +5,6 @@ var mongoose = require('mongoose'),
     config = require('../../config/config');
 
 var userSchema = new mongoose.Schema({
-    name: {
-        first: {
-            type: String
-        },
-        last: {
-            type: String
-        }
-    },
     email: {
         type: String,
         required: true,
@@ -22,11 +14,14 @@ var userSchema = new mongoose.Schema({
         type: String,
         select: false,
         required: true
+    },
+    socketId: {
+        type: String
     }
 });
 
-userSchema.virtual('name.full',function(){
-    return this.name.first+' '+this.name.last;
+userSchema.virtual('username').get(function(){
+    return  this.email.split('@')[0];
 });
 
 userSchema.pre('save', function (next) {

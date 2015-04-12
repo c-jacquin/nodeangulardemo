@@ -17,6 +17,7 @@ module.exports = function () {
     console.log('\x1b[0m');
 
     require.extensions['.ctrl.js'] = require.extensions['.js'];
+    require.extensions['.factory.js'] = require.extensions['.js'];
     require.extensions['.model.js'] = require.extensions['.js'];
     require.extensions['.socket.js'] = require.extensions['.js'];
 };

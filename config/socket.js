@@ -1,36 +1,31 @@
-var config = require('../config/config'),
-    path = require('path'),
+var path = require('path'),
+    config = require('./config'),
     socketioJwt = require('socketio-jwt'),
-    mongoose = require('mongoose'),
-    Room = mongoose.model('Room'),
-    User = mongoose.model('User');
-
-var io = require('../src/chat/socketFactory').io;
+    User = require('mongoose').model('User'),
+    io = require('socket.io')(config.socketPort);
 
 io.use(socketioJwt.authorize({
     secret: config.tokenSecret,
     handshake: true
 }));
-Room.find(function(err,rooms){
-    rooms.forEach(function(room){
-        require('../src/chat/socketFactory').initRoom(room.name);
-    })
-});
 
 io.sockets.on('connection', function(socket){
-    console.log(socket.decoded_token.sub, 'connected');
-
-    Room.find({},function(err,rooms) {
-        socket.emit('room::list', rooms);
-    });
-
-
-    User.findOne({ _id: socket.decoded_token.sub },function(err,user){
-        //console.log(user)
+    User.findOneAndUpdate({ _id: socket.decoded_token.sub },{ socketId : socket.id },function(err,user){
         socket.user = user;
+        console.log( socket.user.username,'connected');
+        config.getGlobbedFiles('./src/**/*.socket.js').forEach(function(routePath){
+            require(path.resolve(routePath))(io,socket);
+        })
     });
 
-    config.getGlobbedFiles('./src/**/*.socket.js').forEach(function(routePath){
-        require(path.resolve(routePath))(io, socket);
+    socket.on('disconnect',function(){
+        console.log(socket.user, ' disconnected');
+        User.findOneAndUpdate({ _id: socket.user._id },{ socketId : 'null' },function(err,user){
+            console.log(err,user);
+        });
     })
+
 });
+
+
+module.exports = io;
